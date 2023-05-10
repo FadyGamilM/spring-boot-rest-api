@@ -1,7 +1,9 @@
 package com.socialmediarestapi.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -24,8 +26,17 @@ public class UserController {
         return _userDao.GetById(userId);
     }
 
-    @PostMapping(path="/api/users")
-    public void CreateUser(@RequestBody UserModel user){
-        _userDao.Create(user);
+    @PostMapping(path = "/api/users")
+    public ResponseEntity<UserModel> CreateUser(@RequestBody UserModel user) {
+        // get the created user
+        var createdUser = _userDao.Create(user);
+
+        // create the uri location
+        var location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{userId}")
+                .buildAndExpand(createdUser.getId())
+                .toUri(); // now we send this uri to the header of the response so client code
+
+        return ResponseEntity.created(location).build();
     }
 }

@@ -1,5 +1,6 @@
 package com.socialmediarestapi.user;
 
+import com.socialmediarestapi.exceptions.NotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -28,7 +29,10 @@ public class UserDao {
 
     // TODO: find specific user by id
     public UserModel GetById(int userId){
-        return _users.stream().filter(user -> user.getId() == userId).findFirst().get();
+        return _users.stream()
+                .filter(user -> user.getId() == userId)
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException("user is not found"));
     }
 
     // TODO: create new user
