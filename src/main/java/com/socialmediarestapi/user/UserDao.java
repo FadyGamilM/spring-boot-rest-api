@@ -9,13 +9,14 @@ import java.util.List;
 @Repository
 public class UserDao {
     private static List<UserModel> _users = new ArrayList<>(){};
+    private static int usersCount = 0;
 
     static {
         _users.addAll(
                 List.of(
-                        new UserModel(1, "fadyGamil", LocalDate.now().minusYears(5)),
-                        new UserModel(2, "magyMagdy", LocalDate.now().minusYears(10)),
-                        new UserModel(3, "SaidMostafa", LocalDate.now().minusYears(7))
+                        new UserModel(++usersCount, "fadyGamil", LocalDate.now().minusYears(5)),
+                        new UserModel(++usersCount, "magyMagdy", LocalDate.now().minusYears(10)),
+                        new UserModel(++usersCount, "SaidMostafa", LocalDate.now().minusYears(7))
                 )
         );
     }
@@ -27,10 +28,16 @@ public class UserDao {
 
     // TODO: find specific user by id
     public UserModel GetById(int userId){
-        return _users.stream().filter(user -> user.id() == userId).findFirst().get();
+        return _users.stream().filter(user -> user.getId() == userId).findFirst().get();
+    }
+
+    // TODO: create new user
+    public UserModel Create(UserModel user){
+        user.setId(++usersCount);
+        _users.add(user);
+        return user;
     }
 
     // TODO: delete a user by id
 
-    // TODO: create new user
 }
