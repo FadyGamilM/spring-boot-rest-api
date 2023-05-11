@@ -43,5 +43,8 @@ public class UserDao {
     }
 
     // TODO: delete a user by id
+    public void DeleteById(int userId){
+        _users.removeIf(u -> u.getId() == userId);
+    }
 
 }
