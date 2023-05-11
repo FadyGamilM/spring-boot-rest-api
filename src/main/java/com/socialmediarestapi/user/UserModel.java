@@ -1,10 +1,11 @@
 package com.socialmediarestapi.user;
-
 import java.time.LocalDate;
-
+import jakarta.validation.constraints.*;
 public class UserModel{
     private int id;
+    @Size(min = 8, max = 100)
     private String username;
+    @Past
     private LocalDate birthDate;
 
     public UserModel(){}

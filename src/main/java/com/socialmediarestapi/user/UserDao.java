@@ -44,6 +44,11 @@ public class UserDao {
 
     // TODO: delete a user by id
     public void DeleteById(int userId){
+        // first we need to find the user to ensure that there is an user exist or not
+        var existingUser = _users.stream()
+                .filter(u -> u.getId() == userId)
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException("there is no user with given id to be removed"));
         _users.removeIf(u -> u.getId() == userId);
     }
 
